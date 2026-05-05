@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class QuestionManager : MonoBehaviour
 {
@@ -9,8 +11,13 @@ public class QuestionManager : MonoBehaviour
     public TMP_Text textoResultado;
     public TMP_InputField inputRespuesta;
 
+    private int indiceActual;
+
+
+
     private string respuestaCorrecta;
     private GameObject fresaActual;
+    private int preguntasRespondidas = 0; // Para contar los aciertos
 
     void Start()
     {
@@ -18,78 +25,78 @@ public class QuestionManager : MonoBehaviour
     }
 
 
-    // Aquí registras tus preguntas y respuestas
-    private string[] preguntas = {
-        "¿Cuánto es 2 + 3?",
-        "¿Capital de Colombia?",
-        "¿Cuánto es 10 - 4?"
-    };
-
-    private string[] respuestas = {
-        "5",
-        "Bogotá",
-        "6"
-    };
-
+    
+    public List<string> preguntas;
+    public List<string> respuestas;
+    
     public void MostrarPregunta(GameObject fresa)
     {
+        if (preguntas.Count == 0) return;
+
         fresaActual = fresa;
-
-        Collider2D col = fresa.GetComponent<Collider2D>();
-        if (col != null)
-        {
-            col.enabled = false;
-        }
-
-        int indice = Random.Range(0, preguntas.Length);
+        int indice = Random.Range(0, preguntas.Count);
+        indiceActual = indice;
 
         textoPregunta.text = preguntas[indice];
         respuestaCorrecta = respuestas[indice];
 
+        
+
         inputRespuesta.text = "";
         textoResultado.text = "";
-
         panelPregunta.SetActive(true);
         Time.timeScale = 0f;
     }
 
+    
     public void VerificarRespuesta()
     {
         if (inputRespuesta.text.Trim().ToLower() == respuestaCorrecta.Trim().ToLower())
         {
-            
-            
-                textoResultado.text = "✅ Correcto";
+            textoResultado.text = "Correcto";
 
-                GameManager.instance.PreguntaCorrecta();
+            preguntas.RemoveAt(indiceActual);
+            respuestas.RemoveAt(indiceActual);
+            preguntasRespondidas++;
 
-                if (fresaActual != null)
-                {
-                    Destroy(fresaActual);
-                }
-            
-        }
-        else
-        {
-            textoResultado.text = "❌ Incorrecto";
+            GameManager.instance.PreguntaCorrecta();
 
             if (fresaActual != null)
             {
+                Destroy(fresaActual);
+            }
+
+            if (preguntasRespondidas >= 5)
+            {
+                StartCoroutine(PasarDeNivel());
+                return;
+            }
+            // --- QUITA EL BLOQUE DE PASARDENIVEL DE AQUÍ ---
+        }
+        else
+        {
+            textoResultado.text = "Incorrecto";
+            if (fresaActual != null)
+            {
                 Collider2D col = fresaActual.GetComponent<Collider2D>();
-                if (col != null)
-                {
-                    col.enabled = true;
-                }
+                if (col != null) col.enabled = true;
             }
         }
 
         StartCoroutine(CerrarPregunta());
     }
 
+    // --- PONLO AQUÍ, FUERA DE LAS OTRAS LLAVES ---
+    IEnumerator PasarDeNivel()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        Time.timeScale = 1f;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
     IEnumerator CerrarPregunta()
     {
         yield return new WaitForSecondsRealtime(2f);
-
         panelPregunta.SetActive(false);
         Time.timeScale = 1f;
     }
