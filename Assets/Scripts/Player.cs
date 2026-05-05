@@ -87,8 +87,8 @@ public class Player : MonoBehaviour
             audioSource.PlayOneShot(coinClip); // Play the coin collection sound effect
             Destroy(collision.gameObject);
             GameManager.instance.SumarMoneda(1);
-            coins = GameManager.instance.monedas;
-            textCoins.text = coins.ToString();
+           // coins = GameManager.instance.monedas;
+           // textCoins.text = coins.ToString();
         }
 
         if (collision.transform.CompareTag("Fresa"))
