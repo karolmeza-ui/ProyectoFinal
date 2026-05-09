@@ -6,6 +6,11 @@ using System.Collections.Generic;
 
 public class QuestionManager : MonoBehaviour
 {
+    [Header("Sonidos")]
+    public AudioSource audioSourceJugador; // Arrastra al puerquito aquí en el Inspector
+    public AudioClip sonidoCorrecto;
+    public AudioClip sonidoIncorrecto;
+
     public GameObject panelPregunta;
     public TMP_Text textoPregunta;
     public TMP_Text textoResultado;
@@ -55,17 +60,18 @@ public class QuestionManager : MonoBehaviour
         {
             textoResultado.text = "Correcto";
 
+            if (audioSourceJugador != null && sonidoCorrecto != null)
+            {
+                audioSourceJugador.PlayOneShot(sonidoCorrecto);
+            }
+
             preguntas.RemoveAt(indiceActual);
             respuestas.RemoveAt(indiceActual);
             preguntasRespondidas++;
 
             GameManager.instance.PreguntaCorrecta();
 
-            if (fresaActual != null)
-            {
-                Destroy(fresaActual);
-            }
-
+          
             if (preguntasRespondidas >= 5)
             {
                 StartCoroutine(PasarDeNivel());
@@ -76,14 +82,24 @@ public class QuestionManager : MonoBehaviour
         else
         {
             textoResultado.text = "Incorrecto";
+            if (audioSourceJugador != null && sonidoIncorrecto != null)
+            {
+                audioSourceJugador.PlayOneShot(sonidoIncorrecto);
+            }
             if (fresaActual != null)
             {
                 Collider2D col = fresaActual.GetComponent<Collider2D>();
                 if (col != null) col.enabled = true;
             }
         }
+        if (fresaActual != null)
+        {
+            Destroy(fresaActual);
+        }
 
         StartCoroutine(CerrarPregunta());
+
+        
     }
 
     // --- PONLO AQUÍ, FUERA DE LAS OTRAS LLAVES ---
