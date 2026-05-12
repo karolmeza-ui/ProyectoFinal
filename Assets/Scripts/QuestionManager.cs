@@ -90,19 +90,17 @@ public class QuestionManager : MonoBehaviour
         {
             textoResultado.text = "Correcto";
 
-<<<<<<< HEAD
+            // 🔊 SONIDO CORRECTO
+            if (audioSourceJugador != null && sonidoCorrecto != null)
+            {
+                audioSourceJugador.PlayOneShot(sonidoCorrecto);
+            }
+
             // SI ES BONUS
             if (preguntaBonus)
             {
                 StartCoroutine(PasarDeNivel());
-                
-
                 return;
-=======
-            if (audioSourceJugador != null && sonidoCorrecto != null)
-            {
-                audioSourceJugador.PlayOneShot(sonidoCorrecto);
->>>>>>> 0fe3ef847c39fd4085627cba7b444455a42a09fd
             }
 
             preguntas.RemoveAt(indiceActual);
@@ -112,27 +110,28 @@ public class QuestionManager : MonoBehaviour
 
             GameManager.instance.PreguntaCorrecta();
 
-<<<<<<< HEAD
             if (fresaActual != null)
             {
                 Destroy(fresaActual);
             }
-=======
-          
+
             if (preguntasRespondidas >= 5)
             {
                 StartCoroutine(PasarDeNivel());
                 return;
             }
-            // --- QUITA EL BLOQUE DE PASARDENIVEL DE AQUÍ ---
->>>>>>> 0fe3ef847c39fd4085627cba7b444455a42a09fd
         }
 
         // ❌ RESPUESTA INCORRECTA
         else
         {
             textoResultado.text = "Incorrecto";
-<<<<<<< HEAD
+
+            // 🔊 SONIDO INCORRECTO
+            if (audioSourceJugador != null && sonidoIncorrecto != null)
+            {
+                audioSourceJugador.PlayOneShot(sonidoIncorrecto);
+            }
 
             // SI FALLA BONUS → REINICIA
             if (preguntaBonus)
@@ -144,30 +143,18 @@ public class QuestionManager : MonoBehaviour
             preguntas.RemoveAt(indiceActual);
             respuestas.RemoveAt(indiceActual);
 
-=======
-            if (audioSourceJugador != null && sonidoIncorrecto != null)
-            {
-                audioSourceJugador.PlayOneShot(sonidoIncorrecto);
-            }
->>>>>>> 0fe3ef847c39fd4085627cba7b444455a42a09fd
             if (fresaActual != null)
             {
                 Destroy(fresaActual);
             }
         }
+
         if (fresaActual != null)
         {
             Destroy(fresaActual);
         }
 
         StartCoroutine(CerrarPregunta());
-
-<<<<<<< HEAD
-
-
-=======
-        
->>>>>>> 0fe3ef847c39fd4085627cba7b444455a42a09fd
     }
 
     // --- PONLO AQUÍ, FUERA DE LAS OTRAS LLAVES ---
