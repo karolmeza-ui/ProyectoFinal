@@ -680,6 +680,7 @@ MonoBehaviour:
   textoPregunta: {fileID: 1725008687}
   textoResultado: {fileID: 415949191}
   inputRespuesta: {fileID: 1678803210}
+  panelIntercambio: {fileID: 0}
   preguntas:
   - "\xBFQu\xE9 \xF3rgano utilizan los seres humanos para respirar?"
   - "\xBFC\xF3mo se llama un animal que solo come plantas?"
@@ -4711,7 +4712,7 @@ GameObject:
   - component: {fileID: 1272157790}
   m_Layer: 0
   m_Name: collectibles_life1_0
-  m_TagString: Untagged
+  m_TagString: Final
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5591,7 +5592,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -253, y: 158}
+  m_AnchoredPosition: {x: -258, y: 202}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768042585
@@ -6775,6 +6776,7 @@ MonoBehaviour:
   textoPregunta: {fileID: 324594268}
   textoResultado: {fileID: 1920692955}
   inputRespuesta: {fileID: 0}
+  panelIntercambio: {fileID: 0}
   preguntas: []
   respuestas: []
 --- !u!1001 &8546092919453408725

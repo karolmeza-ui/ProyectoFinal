@@ -10,14 +10,16 @@ public class QuestionManager : MonoBehaviour
     public TMP_Text textoPregunta;
     public TMP_Text textoResultado;
     public TMP_InputField inputRespuesta;
+    public GameObject panelIntercambio;
+    private bool preguntaBonus = false;
 
     private int indiceActual;
-
 
 
     private string respuestaCorrecta;
     private GameObject fresaActual;
     private int preguntasRespondidas = 0; // Para contar los aciertos
+    
 
     void Start()
     {
@@ -34,29 +36,67 @@ public class QuestionManager : MonoBehaviour
         if (preguntas.Count == 0) return;
 
         fresaActual = fresa;
+
         int indice = Random.Range(0, preguntas.Count);
+
         indiceActual = indice;
 
         textoPregunta.text = preguntas[indice];
         respuestaCorrecta = respuestas[indice];
 
-        
+        inputRespuesta.text = "";
+        textoResultado.text = "";
+
+        panelPregunta.SetActive(true);
+
+        Time.timeScale = 0f;
+
+
+    }
+
+    public void MostrarPreguntaBonus()
+    {
+        preguntaBonus = true;
+
+        int indice = Random.Range(0, preguntas.Count);
+
+        indiceActual = indice;
+
+        textoPregunta.text = preguntas[indice];
+        respuestaCorrecta = respuestas[indice];
 
         inputRespuesta.text = "";
         textoResultado.text = "";
+
         panelPregunta.SetActive(true);
+
         Time.timeScale = 0f;
     }
 
-    
+
     public void VerificarRespuesta()
     {
-        if (inputRespuesta.text.Trim().ToLower() == respuestaCorrecta.Trim().ToLower())
+        bool correcta =
+        inputRespuesta.text.Trim().ToLower()
+        == respuestaCorrecta.Trim().ToLower();
+
+        // ✅ RESPUESTA CORRECTA
+        if (correcta)
         {
             textoResultado.text = "Correcto";
 
+            // SI ES BONUS
+            if (preguntaBonus)
+            {
+                StartCoroutine(PasarDeNivel());
+                
+
+                return;
+            }
+
             preguntas.RemoveAt(indiceActual);
             respuestas.RemoveAt(indiceActual);
+
             preguntasRespondidas++;
 
             GameManager.instance.PreguntaCorrecta();
@@ -65,25 +105,33 @@ public class QuestionManager : MonoBehaviour
             {
                 Destroy(fresaActual);
             }
-
-            if (preguntasRespondidas >= 5)
-            {
-                StartCoroutine(PasarDeNivel());
-                return;
-            }
-            // --- QUITA EL BLOQUE DE PASARDENIVEL DE AQUÍ ---
         }
+
+        // ❌ RESPUESTA INCORRECTA
         else
         {
             textoResultado.text = "Incorrecto";
+
+            // SI FALLA BONUS → REINICIA
+            if (preguntaBonus)
+            {
+                StartCoroutine(ReiniciarNivel());
+                return;
+            }
+
+            preguntas.RemoveAt(indiceActual);
+            respuestas.RemoveAt(indiceActual);
+
             if (fresaActual != null)
             {
-                Collider2D col = fresaActual.GetComponent<Collider2D>();
-                if (col != null) col.enabled = true;
+                Destroy(fresaActual);
             }
         }
 
         StartCoroutine(CerrarPregunta());
+
+
+
     }
 
     // --- PONLO AQUÍ, FUERA DE LAS OTRAS LLAVES ---
@@ -94,10 +142,25 @@ public class QuestionManager : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    IEnumerator ReiniciarNivel()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+
+        Time.timeScale = 1f;
+
+        GameManager.instance.ReiniciarProgreso();
+
+        UnityEngine.SceneManagement.SceneManager.LoadScene(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+        );
+    }
+
     IEnumerator CerrarPregunta()
     {
         yield return new WaitForSecondsRealtime(2f);
         panelPregunta.SetActive(false);
         Time.timeScale = 1f;
     }
+
+
 }

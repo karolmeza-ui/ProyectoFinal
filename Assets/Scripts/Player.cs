@@ -111,20 +111,24 @@ public class Player : MonoBehaviour
 
         if (collision.transform.CompareTag("Final"))
         {
+            // Si completó las preguntas necesarias
             if (GameManager.instance.PuedePasar())
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
+
+            // Si NO completó preguntas pero tiene monedas
             else if (GameManager.instance.PuedeIntercambiar())
             {
-                Debug.Log("Puedes intercambiar 10 monedas para pasar");
-                // luego aquí puedes poner un panel de confirmación
-                GameManager.instance.Intercambiar();
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                questionManager.panelIntercambio.SetActive(true);
+
+                Time.timeScale = 0f;
             }
+
+            // Si no tiene preguntas ni monedas
             else
             {
-                Debug.Log("No puedes pasar, te faltan preguntas o monedas");
+                Debug.Log("No puedes pasar");
             }
         }
 
