@@ -6,6 +6,11 @@ using System.Collections.Generic;
 
 public class QuestionManager : MonoBehaviour
 {
+    [Header("Sonidos")]
+    public AudioSource audioSourceJugador; // Arrastra al puerquito aquí en el Inspector
+    public AudioClip sonidoCorrecto;
+    public AudioClip sonidoIncorrecto;
+
     public GameObject panelPregunta;
     public TMP_Text textoPregunta;
     public TMP_Text textoResultado;
@@ -85,6 +90,7 @@ public class QuestionManager : MonoBehaviour
         {
             textoResultado.text = "Correcto";
 
+<<<<<<< HEAD
             // SI ES BONUS
             if (preguntaBonus)
             {
@@ -92,6 +98,11 @@ public class QuestionManager : MonoBehaviour
                 
 
                 return;
+=======
+            if (audioSourceJugador != null && sonidoCorrecto != null)
+            {
+                audioSourceJugador.PlayOneShot(sonidoCorrecto);
+>>>>>>> 0fe3ef847c39fd4085627cba7b444455a42a09fd
             }
 
             preguntas.RemoveAt(indiceActual);
@@ -101,16 +112,27 @@ public class QuestionManager : MonoBehaviour
 
             GameManager.instance.PreguntaCorrecta();
 
+<<<<<<< HEAD
             if (fresaActual != null)
             {
                 Destroy(fresaActual);
             }
+=======
+          
+            if (preguntasRespondidas >= 5)
+            {
+                StartCoroutine(PasarDeNivel());
+                return;
+            }
+            // --- QUITA EL BLOQUE DE PASARDENIVEL DE AQUÍ ---
+>>>>>>> 0fe3ef847c39fd4085627cba7b444455a42a09fd
         }
 
         // ❌ RESPUESTA INCORRECTA
         else
         {
             textoResultado.text = "Incorrecto";
+<<<<<<< HEAD
 
             // SI FALLA BONUS → REINICIA
             if (preguntaBonus)
@@ -122,16 +144,30 @@ public class QuestionManager : MonoBehaviour
             preguntas.RemoveAt(indiceActual);
             respuestas.RemoveAt(indiceActual);
 
+=======
+            if (audioSourceJugador != null && sonidoIncorrecto != null)
+            {
+                audioSourceJugador.PlayOneShot(sonidoIncorrecto);
+            }
+>>>>>>> 0fe3ef847c39fd4085627cba7b444455a42a09fd
             if (fresaActual != null)
             {
                 Destroy(fresaActual);
             }
         }
+        if (fresaActual != null)
+        {
+            Destroy(fresaActual);
+        }
 
         StartCoroutine(CerrarPregunta());
 
+<<<<<<< HEAD
 
 
+=======
+        
+>>>>>>> 0fe3ef847c39fd4085627cba7b444455a42a09fd
     }
 
     // --- PONLO AQUÍ, FUERA DE LAS OTRAS LLAVES ---

@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
 
     public QuestionManager questionManager;
 
+    
+
 
     void Start()
     {
@@ -74,6 +76,7 @@ public class Player : MonoBehaviour
 
 
     }
+
     private void FixedUpdate()
     {
         IsGrounded = Physics2D.OverlapCircle(groundCheck.position, groundRadius, groundLayer); // Check if the player is grounded by checking for collisions with the ground layer
