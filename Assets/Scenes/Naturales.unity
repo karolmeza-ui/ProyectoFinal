@@ -3375,6 +3375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a960fe1ebb008347b0c13c747256484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestionManager
+  audioSourceJugador: {fileID: 7878350318176612515}
+  sonidoCorrecto: {fileID: 8300000, guid: ccee9e38c17fd194893f2f3c8adf3e1f, type: 3}
+  sonidoIncorrecto: {fileID: 8300000, guid: e4918cfe3a080d348836bea4fda5c720, type: 3}
   panelPregunta: {fileID: 187832069}
   textoPregunta: {fileID: 768971369}
   textoResultado: {fileID: 1725487962}
@@ -6021,6 +6024,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a960fe1ebb008347b0c13c747256484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestionManager
+  audioSourceJugador: {fileID: 0}
+  sonidoCorrecto: {fileID: 0}
+  sonidoIncorrecto: {fileID: 0}
   panelPregunta: {fileID: 187832069}
   textoPregunta: {fileID: 768971369}
   textoResultado: {fileID: 1725487962}
